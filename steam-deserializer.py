@@ -35,6 +35,14 @@ def steam_deserialize(filename):
 
 import os
 
+appid_blacklist = [
+    "228980",  # Steamworks Common Redistributables
+    "1391110", # Steam Linux Runtime - Soldier
+    "1493710", # Proton Experimental
+    "1580130", # Proton 6.3
+    "1887720", # Proton 7.0
+]
+
 steam_root = os.path.expanduser("~/.local/share/Steam")
 
 libraryfolders_path = steam_root + "/steamapps/libraryfolders.vdf"
@@ -45,8 +53,14 @@ while str(library_index) in libraryfolders:
     library_root = libraryfolders[str(library_index)]["path"]
 
     for appid in libraryfolders[str(library_index)]["apps"]:
-        app_manifest_path = library_root + "/steamapps/appmanifest_" + appid + ".acf"
-        app_manifest = steam_deserialize(app_manifest_path)
-        print(app_manifest["name"])
+        if appid not in appid_blacklist:
+            app_manifest_path = library_root + "/steamapps/appmanifest_" + appid + ".acf"
+            app_manifest = steam_deserialize(app_manifest_path)
+            app_icon_path = steam_root + "/appcache/librarycache/" + appid + "_icon.jpg"
+
+            print(app_manifest["appid"], app_manifest["name"])
 
     library_index += 1
+
+# steam steam://rungameid/1289310
+# https://invent.kde.org/frameworks/krunner/-/tree/master/templates/runnerpython
