@@ -51,26 +51,27 @@ class Runner(dbus.service.Object):
 
     @dbus.service.method(iface, in_signature='s', out_signature='a(sssida{sv})')
     def Match(self, query: str):
-        """This method is used to get the matches and it returns a list of tupels"""
-        if query == "hello":
-            # data, text, icon, type (Plasma::QueryType), relevance (0-1), properties (subtext, category and urls)
-            return [("1289310", "Hello from %{APPNAME}!", "/home/tibor/.local/share/Steam/appcache/librarycache/1289310_icon.jpg", 100, 1.0, {'subtext': 'Demo Subtext'})]
-        return []
+        results = []
+
+        for appid, properties in self.steam_library.items():
+            if query.lower() in properties["name"].lower():
+                results.append((appid, properties["name"], properties["icon"], 100, 1.0, {}))
+
+        # TODO: Sort results
+
+        return results
 
     @dbus.service.method(iface, out_signature='a(sss)')
     def Actions(self):
         return [
-            # (id, text, icon)
-            ("library", "Steam Library", "folder-games-symbolic"),
-            ("community-hub", "Community Hub", "system-users"),
-            ("local-files", "Local Files", "folder"),
+            ("library",       "Steam Library", "folder-games-symbolic"),
+            ("community-hub", "Community Hub", "system-users"         ),
+            ("local-files",   "Local Files",   "folder"               ),
         ]
 
     @dbus.service.method(iface, in_signature='ss')
     def Run(self, appid: str, action: str):
         import subprocess
-
-        print(appid, action)
 
         # https://developer.valvesoftware.com/wiki/Steam_browser_protocol
         if action == "":
