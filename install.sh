@@ -14,7 +14,7 @@ mkdir -p $prefix/kservices5/krunner/dbusplugins/
 mkdir -p $prefix/dbus-1/services/
 
 cp krunnersteam.desktop $prefix/kservices5/krunner/dbusplugins/
-sed "s|%{PROJECTDIR}/krunnersteam.py|${PWD}/krunnersteam.py|" "com.github.xtibor.krunnersteam.service" > $prefix/dbus-1/services/com.github.xtibor.krunnersteam.service
+sed "s|%{PROJECTDIR}/src/krunnersteam.py|${PWD}/src/krunnersteam.py|" "com.github.xtibor.krunnersteam.service" > $prefix/dbus-1/services/com.github.xtibor.krunnersteam.service
 
 kquitapp5 krunner
 
