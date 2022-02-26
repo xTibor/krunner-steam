@@ -14,8 +14,6 @@ class Runner(dbus.service.Object):
         from blacklist import appid_blacklist
         from deserializer import steam_deserialize
 
-        print("Reloading Steam library...")
-
         self.steam_library = {}
         libraryfolders = steam_deserialize(self.libraryfolders_path)
 
@@ -30,7 +28,6 @@ class Runner(dbus.service.Object):
                     app_icon_path = self.steam_root + "/appcache/librarycache/" + appid + "_icon.jpg"
                     app_local_files = library_root + "/steamapps/common/" + app_manifest["installdir"]
 
-                    print(app_manifest["appid"], app_manifest["name"])
                     self.steam_library[app_manifest["appid"]] = {
                         "name": app_manifest["name"],
                         "icon": app_icon_path,
@@ -44,7 +41,6 @@ class Runner(dbus.service.Object):
         self.steam_root = os.path.expanduser("~/.local/share/Steam")
         self.libraryfolders_path = self.steam_root + "/steamapps/libraryfolders.vdf"
         self.reload_steam_library()
-        print(self.steam_library)
 
         dbus.service.Object.__init__(self, dbus.service.BusName("com.github.xtibor.krunnersteam", dbus.SessionBus()), objpath)
         # TODO: inotify libraryfolders.vdf -> reload_steam_library
