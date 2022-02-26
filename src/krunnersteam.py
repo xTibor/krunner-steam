@@ -57,7 +57,7 @@ class Runner(dbus.service.Object):
             if query.lower() in properties["name"].lower():
                 results.append((appid, properties["name"], properties["icon"], 100, 1.0, {}))
 
-        # TODO: Sort results
+        results.sort(key = lambda result: result[1].lower())
 
         return results
 
