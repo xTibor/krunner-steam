@@ -13,6 +13,7 @@ class Runner(dbus.service.Object):
     def reload_steam_library(self):
         from blacklist import appid_blacklist
         from deserializer import steam_deserialize
+        from os.path import exists as path_exists
 
         self.steam_library = {}
         libraryfolders = steam_deserialize(self.libraryfolders_path)
@@ -22,8 +23,8 @@ class Runner(dbus.service.Object):
             library_root = libraryfolders[str(library_index)]["path"]
 
             for appid in libraryfolders[str(library_index)]["apps"]:
-                if appid not in appid_blacklist:
-                    app_manifest_path = library_root + "/steamapps/appmanifest_" + appid + ".acf"
+                app_manifest_path = library_root + "/steamapps/appmanifest_" + appid + ".acf"
+                if path_exists(app_manifest_path) and (appid not in appid_blacklist):
                     app_manifest = steam_deserialize(app_manifest_path)
                     app_icon_path = self.steam_root + "/appcache/librarycache/" + appid + "_icon.jpg"
                     app_local_files = library_root + "/steamapps/common/" + app_manifest["installdir"]
