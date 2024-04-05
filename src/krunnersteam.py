@@ -71,8 +71,9 @@ class Runner(dbus.service.Object):
         import subprocess
 
         # https://developer.valvesoftware.com/wiki/Steam_browser_protocol
+        # https://developer.valvesoftware.com/wiki/Command_line_options#Steam
         if action == "":
-            subprocess.Popen(["steam", "steam://rungameid/" + appid])
+            subprocess.Popen(["steam", "steam://rungameid/" + appid, "-silent"])
         elif action == "library":
             subprocess.Popen(["steam", "steam://nav/games/details/" + appid])
         elif action == "community-hub":
