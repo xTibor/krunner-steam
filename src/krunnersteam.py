@@ -11,6 +11,7 @@ iface = "org.kde.krunner1"
 
 class Runner(dbus.service.Object):
     def reload_steam_library(self):
+        import os, re
         from blacklist import appid_blacklist
         from deserializer import steam_deserialize
         from os.path import exists as path_exists
@@ -26,8 +27,12 @@ class Runner(dbus.service.Object):
                 app_manifest_path = library_root + "/steamapps/appmanifest_" + appid + ".acf"
                 if path_exists(app_manifest_path) and (appid not in appid_blacklist):
                     app_manifest = steam_deserialize(app_manifest_path)
-                    app_icon_path = self.steam_root + "/appcache/librarycache/" + appid + "_icon.jpg"
                     app_local_files = library_root + "/steamapps/common/" + app_manifest["installdir"]
+
+                    app_icon_path = ""
+                    app_icon_cache_path = self.steam_root + "/appcache/librarycache/" + appid
+                    if path_exists(app_icon_cache_path):
+                        app_icon_path = ([(app_icon_cache_path + "/" + path) for path in os.listdir(app_icon_cache_path) if re.match(r"[a-z0-9]{40}.jpg", path)] or [""])[0]
 
                     self.steam_library[app_manifest["appid"]] = {
                         "name": app_manifest["name"],
