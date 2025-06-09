@@ -6,7 +6,7 @@ from gi.repository import GLib
 
 DBusGMainLoop(set_as_default=True)
 
-objpath = "/krunnersteam"
+objpath = "/runner"
 iface = "org.kde.krunner1"
 
 class Runner(dbus.service.Object):

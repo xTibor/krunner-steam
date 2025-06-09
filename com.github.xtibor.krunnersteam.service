@@ -1,3 +1,0 @@
-[D-BUS Service]
-Name=com.github.xtibor.krunnersteam
-Exec=/usr/bin/python3 "%{PROJECTDIR}/src/krunnersteam.py"

@@ -1,20 +1,17 @@
 #!/bin/bash
 
-# Exit if something fails
+# Standalone install script for copying files
+
 set -e
 
+prefix="${XDG_DATA_HOME:-$HOME/.local/share}"
+krunner_dbusdir="$prefix/krunner/dbusplugins"
+services_dir="$prefix/dbus-1/services/"
 
-if [[ -z "$XDG_DATA_HOME" ]]; then
-    prefix=~/.local/share
-else
-    prefix="$XDG_DATA_HOME"
-fi
+mkdir -p $krunner_dbusdir
+mkdir -p $services_dir
 
-mkdir -p $prefix/kservices5/krunner/dbusplugins/
-mkdir -p $prefix/dbus-1/services/
+cp krunnersteam.desktop $krunner_dbusdir
+printf "[D-BUS Service]\nName=com.github.xtibor.krunnersteam\nExec=\"$PWD/src/main.py\"" > $services_dir/com.github.xtibor.krunnersteam.service
 
-cp krunnersteam.desktop $prefix/kservices5/krunner/dbusplugins/
-sed "s|%{PROJECTDIR}/src/krunnersteam.py|${PWD}/src/krunnersteam.py|" "com.github.xtibor.krunnersteam.service" > $prefix/dbus-1/services/com.github.xtibor.krunnersteam.service
-
-kquitapp5 krunner
-
+kquitapp6 krunner

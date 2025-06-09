@@ -1,7 +1,6 @@
 [Desktop Entry]
 Name=Steam
 Comment=Unofficial Steam plugin for KRunner
-X-KDE-ServiceTypes=Plasma/Runner
 Type=Service
 Icon=steam
 X-KDE-PluginInfo-Author=Nagy Tibor
@@ -12,4 +11,3 @@ X-KDE-PluginInfo-License=LGPL
 X-KDE-PluginInfo-EnabledByDefault=true
 X-Plasma-API=DBus
 X-Plasma-DBusRunner-Service=com.github.xtibor.krunnersteam
-X-Plasma-DBusRunner-Path=/krunnersteam
