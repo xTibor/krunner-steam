@@ -20,4 +20,5 @@ appid_blacklist = [
     "2230260", # Proton Next
     "2348590", # Proton 8.0
     "2805730", # Proton 9.0
+    "3658110", # Proton 10.0
 ]
