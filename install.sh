@@ -12,6 +12,7 @@ mkdir -p $krunner_dbusdir
 mkdir -p $services_dir
 
 cp krunnersteam.desktop $krunner_dbusdir
+chmod +x src/main.py
 printf "[D-BUS Service]\nName=com.github.xtibor.krunnersteam\nExec=\"$PWD/src/main.py\"" > $services_dir/com.github.xtibor.krunnersteam.service
 
 kquitapp6 krunner
